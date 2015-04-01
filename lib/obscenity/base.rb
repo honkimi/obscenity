@@ -29,6 +29,15 @@ module Obscenity
       def sanitize(text)
         return(text) unless text.to_s.size >= 3
         blacklist.each do |foul|
+          text.gsub!(/\b#{foul}\b/i, replace(foul)) unless whitelist.include?(foul)
+        end
+        @scoped_replacement = nil
+        text
+      end
+
+      def sanitize_ja(text)
+        return(text) unless text.to_s.size >= 3
+        blacklist.each do |foul|
           text.gsub!(/#{foul}/i, replace(foul)) unless whitelist.include?(foul)
         end
         @scoped_replacement = nil
